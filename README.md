@@ -18,7 +18,7 @@
 如果小型互联网公司为了减少成本，可以把静态资源部署到 nginx 下。利用 nginx 提供静态资源服务的高并发性能<br/>
 的特点，可以最大可能的提高静态资源的访问速度。
 <br/>
-通过 nginx 反向代理，对外只暴露 80 端口。同时配置 nginx 的负载均衡，为多个 jseckill-backend 集群节点提供<br/>
+通过 nginx 反向代理，对外只暴露 80 端口。同时配置 nginx 的负载均衡，为多个 javamiaosha-backend 集群节点提供<br/>
 负载均衡。 负载均衡策略设置成按照几台应用服务器的性能大小的权重分配就行了。
 
 MySQl 部署采用 Master-Slave 主从复制方式来做读写分离, 提高数据库的高并发能力。
@@ -78,10 +78,10 @@ MySQl 部署采用 Master-Slave 主从复制方式来做读写分离, 提高数�
 AccessLimitServiceImpl.java 代码 <br/>
 
 ```java
-package com.mediaai.jseckill.backend.service.impl;
+package com.mediaai.javamiaosha.backend.service.impl;
 
 import com.google.common.util.concurrent.RateLimiter;
-import com.mediaai.jseckill.backend.service.AccessLimitService;
+import com.mediaai.javamiaosha.backend.service.AccessLimitService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -132,7 +132,7 @@ public SeckillExecution executeSeckill(long seckillId, long userPhone, String md
 
 1.流程图 Step1：先经过 Nginx 负载均衡和分流
 
-2.进入 jseckill 程序处理。 Google guava RateLimiter 限流。 并发量大的时候，直接舍弃掉部分用户的请求
+2.进入 javamiaosha 程序处理。 Google guava RateLimiter 限流。 并发量大的时候，直接舍弃掉部分用户的请求
 
 3.Redis 判断是否秒杀过。避免重复秒杀。如果没有秒杀过 <br/>
 把用户名（这里是手机号）和 seckillId 封装成一条消息发送到 RabbitMQ，请求变成被顺序串行处理 <br/>
@@ -235,7 +235,7 @@ rabbitmq.address-list=192.168.20.3:5672,localhost:5672
 com.rabbitmq.client.ConnectionFactory#newConnection(List<Address> addrs) throws IOException, TimeoutException {}
 ```
 
-应用代码见<code>com.mediaai.jseckill.backend.config.MQConfig</code>
+应用代码见<code>com.mediaai.javamiaosha.backend.config.MQConfig</code>
 
 代码片段
 
